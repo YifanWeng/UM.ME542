@@ -54,19 +54,21 @@ x0=[XX0(1:2);Track.ftheta(s_start);v0];
 %% Open loop control
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Driving force
-Rcontrol=@(t) Car.R_max+0*t;
+t1=[0    2    2.4     4.3       7      10  ];
+R=[5500 5500 -10000  -10000     2800   5500  ];
+Rcontrol=@(t) interp1(t1,R,t);
 
 % steering angle
-gamma=@(t) 0*t;
+t2=[ -0.1   4.1   5.5    6.5  7     10     ];
+gamm=[0      0    0.09   0.1  0.12  0.02  ];
+gamma=@(t) interp1(t2,gamm,t);
 % % % For gammadot 
 % % % you can either either provide a numerical expression
-gammadot=@(t) 0*t;
+%gammadot=@(t) 0*t;
 % % % or rely on numerical estimation
-% dt=1e-6;
-% diff_num=@(f,dt,t) (f(t+dt)-f(t-dt))/(2*dt);
-% gammadot=@(t) diff_num(gamma,dt,t); 
-
+dt=1e-6;
+diff_num=@(f,dt,t) (f(t+dt)-f(t-dt))/(2*dt);
+gammadot=@(t) diff_num(gamma,dt,t); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% make sure you set a time long enough %%%%%%%%%%%%%%%%%%%
 
